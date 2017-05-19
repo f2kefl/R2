@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="R2:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/R2_jar</output-path>
+    <root id="archive" name="R2.jar">
+      <element id="module-output" name="R2" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/json-simple-1.1.1.jar" path-in-jar="/" />
+      <element id="library" level="project" name="json-simple-1.1.1" />
+    </root>
+  </artifact>
+</component>
