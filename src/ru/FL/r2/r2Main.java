@@ -35,23 +35,24 @@ import java.util.List;
 
 public class r2Main extends Application
 {
-    private static final String JSON_DATA = "JsonData.json";
-    private static List<Movie> listMovie = new ArrayList<>(); // список в формате Pane
-    private static List<JSONObject> listJson = new ArrayList<>(); // список в формате JsonObject
-    private static JSONArray jsonArray = null; // Json массив для сохранения и извлечения списка из файла
+    private static final String JSON_DATA = "JsonData.json"; // РЅР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р° json
+    private static List<Movie> listMovie = new ArrayList<>(); // СЃРїРёСЃРѕРє РІ С„РѕСЂРјР°С‚Рµ Pane
+    private static List<JSONObject> listJson = new ArrayList<>(); // СЃРїРёСЃРѕРє РІ С„РѕСЂРјР°С‚Рµ JsonObject
+    private static JSONArray jsonArray = null; // Json РјР°СЃСЃРёРІ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ Рё РёР·РІР»РµС‡РµРЅРёСЏ СЃРїРёСЃРєР° РёР· С„Р°Р№Р»Р°
     private static JSONParser parser = new JSONParser();
-    private static FileWriter fileWriter = null;
+    private static FileWriter fileWriter = null; // СЃСЂРµРґСЃС‚РІРѕ РґР»СЏ Р·Р°РїРёСЃРё РґР°РЅРЅС‹С… РІ РґР¶СЃРѕРЅ С„Р°Р№Р»
 
-    private static Color[] colors = new Color[5];
+    private static Color[] colors = new Color[5]; // РјР°СЃСЃРёРІ С†РІРµС‚РѕРІ РґР»СЏ РёР·РјРµРЅРµРЅРёСЏ С†РІРµС‚Р° С„РёР»СЊРјРѕРІ,
+    // РЅР°РїСЂРёРјРµСЂ, С‡С‚РѕР±С‹ РѕР±РѕР·РЅР°С‡РёС‚СЊ РёС… РїРѕ Р¶Р°РЅСЂСѓ, РїСЂРёРѕСЂРёС‚РµС‚Сѓ Рё С‚.Рґ., РјРѕР¶РЅРѕ СЃРІРѕР±РѕРґРЅРѕ РјРµРЅСЏС‚СЊ РёР»Рё РґРѕР±Р°РІР»СЏС‚СЊ СЃРІРѕРё.
 
     @SuppressWarnings("unchecked")
     public static void main(String[] args)
     {
         colors[0] = Color.web("#ffeb99", 0.5); // default
-        colors[1] = Color.web("#a6a6a6", 0.5); // драмы
-        colors[2] = Color.web("#ff4d4d", 0.5); // боевики/триллеры/ужасы
-        colors[3] = Color.web("#ff8900", 0.5); // комедии
-        colors[4] = Color.web("#66b3ff", 0.5); // фантастика/фэнтези
+        colors[1] = Color.web("#a6a6a6", 0.5); // РґСЂР°РјС‹
+        colors[2] = Color.web("#ff4d4d", 0.5); // Р±РѕРµРІРёРєРё/С‚СЂРёР»Р»РµСЂС‹/СѓР¶Р°СЃС‹
+        colors[3] = Color.web("#ff8900", 0.5); // РєРѕРјРµРґРёРё
+        colors[4] = Color.web("#66b3ff", 0.5); // С„Р°РЅС‚Р°СЃС‚РёРєР°/С„СЌРЅС‚РµР·Рё
 
         try {
             jsonArray = (JSONArray) parser.parse(new FileReader(JSON_DATA));
@@ -65,6 +66,7 @@ public class r2Main extends Application
         launch(args);
     }
 
+    // Р“Р»Р°РІРЅРѕРµ РѕРєРЅРѕ.
     @Override
     public void start(Stage primaryStage) throws Exception
     {
@@ -95,6 +97,7 @@ public class r2Main extends Application
         showViewed.setOnMouseClicked(event -> viewed(new Stage()));
         Info.setOnMouseClicked(event -> info(new Stage()));
 
+        // РґРѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№
         add.setOnMouseClicked(event -> {
             String name = JOptionPane.showInputDialog(null, "Input new title");
             if (name != null && name.length() > 0) {
@@ -112,6 +115,7 @@ public class r2Main extends Application
             }
         });
 
+        // РїРѕР»СѓС‡РёС‚СЊ СЃР»СѓС‡Р°Р№РЅС‹Р№
         getRandom.setOnMouseClicked(event -> {
             int crutch = 0;
             while (crutch < listMovie.size()) {
@@ -125,6 +129,7 @@ public class r2Main extends Application
             }
         });
 
+        // СѓРґР°Р»РёС‚СЊ
         delete.setOnMouseClicked(event -> listMovie.forEach(movie -> {
             if (movie.isSelected) {
                 listJson.remove(listMovie.indexOf(movie));
@@ -133,6 +138,7 @@ public class r2Main extends Application
             }
         }));
 
+        // РѕС‚РїСЂР°РІРёС‚СЊ РЅР° Р»РёСЃС‚ РїСЂРѕСЃРјРѕС‚СЂРµРЅРЅС‹С…
         toViewedList.setOnMouseClicked(event -> listMovie.forEach(movie -> {
             if (movie.isSelected) {
                 listJson.get(listMovie.indexOf(movie)).put("list", 2);
@@ -153,6 +159,7 @@ public class r2Main extends Application
 
         Scene scene = new Scene(root, 1038, 760);
 
+        // СЌРІРµРЅС‚ РґР»СЏ СЃРјРµРЅС‹ С†РІРµС‚РѕРІ
         scene.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.SPACE) {
                 listMovie.forEach(movie -> {
@@ -205,6 +212,7 @@ public class r2Main extends Application
         });
     }
 
+    // РєР»Р°СЃСЃ С„РёР»СЊРјРѕРІ
     public class Movie extends StackPane
     {
         GaussianBlur gb = new GaussianBlur(19.0D);
@@ -240,16 +248,22 @@ public class r2Main extends Application
                 }
             });
 
+            // РїРµСЂРµРјРµС‰РµРЅРёРµ СЃ Р·Р°Р¶Р°С‚РѕР№ Р›РљРњ
             setOnMouseDragged(event -> {
                 if (event.getButton() == MouseButton.PRIMARY) {
-                    setLayoutX(event.getX() + getLayoutX());
-                    setLayoutY(event.getY() + getLayoutY());
+                    setTranslateX(event.getX() + getTranslateX());
+                    setTranslateY(event.getY() + getTranslateY());
+                    if (event.getX() + getTranslateX() > 0) {
+                        listJson.get(listMovie.indexOf(this)).put("x", (int) (event.getX() + getTranslateX()));
+                    }
+                    if (event.getX() + getTranslateY() > 0) {
+                        listJson.get(listMovie.indexOf(this)).put("y", (int) (event.getY() + getTranslateY()));
+                    }
                 }
-                listJson.get(listMovie.indexOf(this)).put("x", (int) (event.getX() + getTranslateX()));
-                listJson.get(listMovie.indexOf(this)).put("y", (int) (event.getY() + getTranslateY()));
             });
         }
 
+        // С‡С‚РµРЅРёРµ РёР· РґР¶СЃРѕРЅ С„Р°Р№Р»Р°
         private void readJson(JSONObject o)
         {
             label.setText((String) o.get("name"));
@@ -268,6 +282,7 @@ public class r2Main extends Application
             }
         }
 
+        // РјРµС‚РѕРґ РґР»СЏ РІС‹РґРµР»РµРЅРёСЏ СЃР»СѓС‡Р°Р№РЅРѕРіРѕ
         private void getThis()
         {
             rectangle.setFill(Color.FORESTGREEN);
@@ -275,6 +290,7 @@ public class r2Main extends Application
         }
     }
 
+    // РіР»Р°РІРЅС‹Рµ РєРЅРѕРїРєРё
     private class Btn extends StackPane
     {
         Btn(String name)
@@ -307,17 +323,18 @@ public class r2Main extends Application
         }
     }
 
+    // РѕРєРЅРѕ СЃ РёРЅСЃС‚СЂСѓРєС†РёСЏРјРё
     private void info(Stage stage)
     {
         Pane pane = new Pane();
 
         Text text = new Text();
-        text.setText("Краткая инструкция:\n"+
-        "1. ПКМ выделяет объект. Повторное нажатие снимает выделение. Можно выделять несколько объектов;\n" +
-                "2. To Viewed отправляет выделенные объекты в другое окно, которое можно вызвать по нажатию Viewed;\n" +
-                "3. Пробел меняет цвет объекта;\n" +
-                "4. С зажатой ЛКМ можно передвигать объекты по окну;\n" +
-                "4. Кнопки пробел, Delete и To Viewed действуют только на выделенные объекты.");
+        text.setText("РљСЂР°С‚РєР°СЏ РёРЅСЃС‚СЂСѓРєС†РёСЏ:\n"+
+        "1. РџРљРњ РІС‹РґРµР»СЏРµС‚ РѕР±СЉРµРєС‚. РџРѕРІС‚РѕСЂРЅРѕРµ РЅР°Р¶Р°С‚РёРµ СЃРЅРёРјР°РµС‚ РІС‹РґРµР»РµРЅРёРµ. РњРѕР¶РЅРѕ РІС‹РґРµР»СЏС‚СЊ РЅРµСЃРєРѕР»СЊРєРѕ РѕР±СЉРµРєС‚РѕРІ;\n" +
+                "2. To Viewed РѕС‚РїСЂР°РІР»СЏРµС‚ РІС‹РґРµР»РµРЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹ РІ РґСЂСѓРіРѕРµ РѕРєРЅРѕ, РєРѕС‚РѕСЂРѕРµ РјРѕР¶РЅРѕ РІС‹Р·РІР°С‚СЊ РїРѕ РЅР°Р¶Р°С‚РёСЋ Viewed;\n" +
+                "3. РџСЂРѕР±РµР» РјРµРЅСЏРµС‚ С†РІРµС‚ РѕР±СЉРµРєС‚Р°;\n" +
+                "4. РЎ Р·Р°Р¶Р°С‚РѕР№ Р›РљРњ РјРѕР¶РЅРѕ РїРµСЂРµРґРІРёРіР°С‚СЊ РѕР±СЉРµРєС‚С‹ РїРѕ РѕРєРЅСѓ;\n" +
+                "4. РљРЅРѕРїРєРё РїСЂРѕР±РµР», Delete Рё To Viewed РґРµР№СЃС‚РІСѓСЋС‚ С‚РѕР»СЊРєРѕ РЅР° РІС‹РґРµР»РµРЅРЅС‹Рµ РѕР±СЉРµРєС‚С‹.");
         text.setFont(new Font("Impact", 14));
         text.setStyle("-fx-effect: dropshadow(three-pass-box, black, 2, 0.5, 1, 1)");
         text.setFill(Color.web("#ffffff"));
@@ -333,6 +350,7 @@ public class r2Main extends Application
         stage.show();
     }
 
+    // РѕРєРЅРѕ СЃ РїСЂРѕСЃРјРѕС‚СЂРµРЅРЅС‹РјРё
     private void viewed(Stage stage)
     {
         Pane pane = new Pane();
