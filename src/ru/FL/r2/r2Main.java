@@ -10,7 +10,9 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -227,29 +229,22 @@ public class r2Main extends Application
             rectangle.setStyle("-fx-effect: dropshadow(gaussian, rgba(6,7,7,0.25), 3, 0.6, 1, 1)");
             this.getChildren().addAll(rectangle, label);
 
-            FillTransition ft = new FillTransition(Duration.seconds(0.5), rectangle);
-
-
-            setOnContextMenuRequested(event -> {
-                Color color = (Color) rectangle.getFill();
+            setOnContextMenuRequested((ContextMenuEvent event) -> {
+                label.setStyle("-fx-border-color: red");
                 if (!isSelected) {
-                    ft.setFromValue(color);
-                    ft.setToValue(Color.web("000000", 0.5D));
-                    ft.setCycleCount(-1);
-                    ft.setAutoReverse(true);
-                    ft.play();
                     isSelected = true;
                 }
                 else {
-                    rectangle.setFill(ft.getFromValue());
-                    ft.stop();
+                    label.setStyle("-fx-effect: dropshadow(three-pass-box, black, 2, 0.5, 1, 1)");
                     isSelected = false;
                 }
             });
 
             setOnMouseDragged(event -> {
-                setTranslateX(event.getX() + getTranslateX());
-                setTranslateY(event.getY() + getTranslateY());
+                if (event.getButton() == MouseButton.PRIMARY) {
+                    setLayoutX(event.getX() + getLayoutX());
+                    setLayoutY(event.getY() + getLayoutY());
+                }
                 listJson.get(listMovie.indexOf(this)).put("x", (int) (event.getX() + getTranslateX()));
                 listJson.get(listMovie.indexOf(this)).put("y", (int) (event.getY() + getTranslateY()));
             });
